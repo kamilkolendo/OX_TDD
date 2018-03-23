@@ -8,8 +8,33 @@
 
 import XCTest
 @testable import OX_TDD
+//@testable import x
 
 class OX_TDDTests: XCTestCase {
+    
+    enum State {
+        case empty
+        case x
+        case o
+    }
+    
+    struct Field {
+        var state: State
+        let position: (x: Int, y: Int)
+    }
+    
+    func playerAction(onField field: Field) -> Bool {
+        var isActionPossible: Bool
+        
+        if field.state != .empty {
+            isActionPossible = false
+        } else {
+            isActionPossible = true
+        }
+        return isActionPossible
+    }
+    
+    //-----------------------------------------
     
     override func setUp() {
         super.setUp()
@@ -21,7 +46,15 @@ class OX_TDDTests: XCTestCase {
         super.tearDown()
     }
     
-    func testExample() {
+    func testPlayerShouldOccupyOnlyEmptyField() {
+        
+        let emptyField = Field(state: State.empty, position: (0, 0))
+        let occupiedField = Field(state: State.x, position: (0, 0))
+        
+        XCTAssertEqual(playerAction(onField: emptyField), true)
+        XCTAssertEqual(playerAction(onField: occupiedField), false)
+        
+        
         // This is an example of a functional test case.
         // Use XCTAssert and related functions to verify your tests produce the correct results.
     }
